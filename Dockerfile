@@ -1,3 +1,5 @@
 FROM hreeder/demoapp-base:latest
 
-CMD ["/bin/awesome"]
+COPY . /app
+
+CMD ["/app/run.sh"]
