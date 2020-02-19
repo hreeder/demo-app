@@ -1,0 +1,30 @@
+---
+resources:
+- name: base-image
+  type: docker-image
+  source:
+    repository: hreeder/demoapp-base
+
+- name: app-image
+  type: docker-image
+  source:
+    repository: hreeder/demoapp
+    username: ((dockerhub.username))
+    password: ((dockerhub.password))
+
+- name: source
+  type: git
+  source:
+    uri: https://github.com/hreeder/demo-app.git
+
+jobs:
+- name: Build Image
+  plan:
+  - in_parallel:
+    - get: base-image
+      trigger: true
+    - get: source
+      trigger: true
+  - put: app-image
+    params:
+      build: source
